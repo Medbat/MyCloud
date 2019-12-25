@@ -21,6 +21,8 @@ namespace MyCloud.Server.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    //.UseKestrel()
+                    //.UseUrls("http://127.0.0.1:32228/");
                 });
     }
 }
