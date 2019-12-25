@@ -12,7 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MyCloud.BL;
+using MyCloud.Server.Api.Controllers;
 
 
 namespace MyCloud.Server.Api
@@ -33,7 +36,10 @@ namespace MyCloud.Server.Api
                 .AddAzureADB2CBearer(options => Configuration.Bind("AzureAdB2C", options));
             services.AddControllers();
 
+            
             services.Configure<ServerOptions>(Configuration.GetSection(nameof(ServerOptions)));
+
+            //services.AddSingleton<StorageService>(new StorageService(provider.GetService<IOptions<ServerOptions>>().Value.StorageDirectory));
 
             services.AddSwaggerGen(c =>
             {

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCloud.Server.Api", "MyCloud.Server.Api\MyCloud.Server.Api.csproj", "{198A4F86-D549-4973-8573-0C5DA24C7246}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyCloud.Server.Api", "MyCloud.Server.Api\MyCloud.Server.Api.csproj", "{198A4F86-D549-4973-8573-0C5DA24C7246}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyCloud.BL", "MyCloud.BL\MyCloud.BL.csproj", "{90155578-B3BF-4C7E-9487-09DDDD8B21E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{198A4F86-D549-4973-8573-0C5DA24C7246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{198A4F86-D549-4973-8573-0C5DA24C7246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{198A4F86-D549-4973-8573-0C5DA24C7246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90155578-B3BF-4C7E-9487-09DDDD8B21E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90155578-B3BF-4C7E-9487-09DDDD8B21E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90155578-B3BF-4C7E-9487-09DDDD8B21E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90155578-B3BF-4C7E-9487-09DDDD8B21E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
