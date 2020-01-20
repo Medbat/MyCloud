@@ -41,9 +41,13 @@ namespace MyCloud.Server.Api.Controllers
             {
                 throw new ArgumentNullException(nameof(file), "Отсутствует файл");
             }
-
-            
             await _storageService.SaveFileToAsync(file.OpenReadStream(), Path.Combine(filePath, file.FileName), overwrite);
+        }
+
+        [HttpDelete("[action]")]
+        public async Task DeleteFile([FromBody] string filePath)
+        {
+            await _storageService.DeleteFileAsync(filePath);
         }
 
         private string GetMimeType(string file)
