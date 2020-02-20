@@ -50,6 +50,17 @@ namespace MyCloud.Server.Api.Controllers
             await _storageService.DeleteFileAsync(filePath);
         }
 
+        [HttpGet("[action]")]
+        public async Task CreateFolder(string path)
+        {
+            await _storageService.CreateFolder(path);
+        }
+
+        [HttpDelete("[action]")]
+        public async Task DeleteFolder(string path)
+        {
+            await _storageService.DeleteFolder(path);
+        }
         private string GetMimeType(string file)
         {
             var provider = new FileExtensionContentTypeProvider();

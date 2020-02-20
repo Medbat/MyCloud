@@ -8,13 +8,14 @@ using System.IO;
 
 namespace MyCloud.UnitTests
 {
+
+
 	public class UnitTest1
 	{
 		private readonly StorageService _storageService;
 		private readonly string _storagePath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "cloud");
-
 		public UnitTest1()
-		{
+        {
 			_storageService = new StorageService(_storagePath);
 		}
 
@@ -70,11 +71,11 @@ namespace MyCloud.UnitTests
 		{
 			try
 			{
-				var uplodedFile = new byte[] { 49, 50, 51 };
-				using var fileStream = new MemoryStream(uplodedFile);
+				var uploadedFile = new byte[] { 49, 50, 51 };
+				using var fileStream = new MemoryStream(uploadedFile);
 				await _storageService.SaveFileToAsync(fileStream, filePath);
 				var downloadedFile = await _storageService.GetFileAsync(filePath);
-				downloadedFile.ShouldBe(uplodedFile);
+				downloadedFile.ShouldBe(uploadedFile);
 			}
 			finally
 			{
@@ -85,5 +86,45 @@ namespace MyCloud.UnitTests
 				}
 			}
 		}
+		[Theory]
+		[InlineData("HAHAHAHHAAH.txt")]
+		[InlineData(@"somefolder\hahahahah.txt")]
+        public async Task UploadAndDeleteFileTest(string filePath)
+        {
+            var uploadedFile = new byte[] { 49, 50, 51 };
+            using var fileStream = new MemoryStream(uploadedFile);
+            await _storageService.SaveFileToAsync(fileStream, filePath);
+			await _storageService.DeleteFileAsync(filePath);
+
+			Directory.Exists(filePath).ShouldBeFalse();
+        }
+
+		[Theory]
+        [InlineData("path/here")]
+		[InlineData("path/must/be/here")]
+        public async Task CreateFolder(string path)
+        {
+            try
+            {
+                await _storageService.CreateFolder(path);
+				Directory.Exists(Path.Combine("cloud", path)).ShouldBeTrue();
+            }
+            finally
+            {
+				Directory.Delete(Path.Combine("cloud", "path"), true);
+            }
+		}
+
+		[Fact]
+        public async Task DeleteFolder()
+        {
+            Directory.CreateDirectory("path/here");
+            Directory.CreateDirectory("path/here2");
+            File.Create("path/file.txt").Close();
+            File.Create("path/here/file2.txt").Close();
+
+			await _storageService.DeleteFolder("path");
+			Directory.Exists(Path.Combine("cloud", "path")).ShouldBeFalse();
+        }
 	}
 }

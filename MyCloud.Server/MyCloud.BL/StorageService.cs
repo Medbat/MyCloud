@@ -19,16 +19,16 @@ namespace MyCloud.BL
             _storageDirectory = storageDirectory;
         }
 
-        public bool IsValidAbsoluteFilePath(string absoluteFilePath)
+        public bool IsValidAbsolutePath(string absoluteFilePath)
         {
             return absoluteFilePath.StartsWith(_storageDirectory);
         }
 
         public async Task<byte[]> GetFileAsync(string filePath)
         {
-            var absoluteFilePath = GetAbsoluteFilePath(filePath);
+            var absoluteFilePath = GetAbsolutePath(filePath);
             
-            if (!IsValidAbsoluteFilePath(absoluteFilePath))
+            if (!IsValidAbsolutePath(absoluteFilePath))
             {
                 throw new InvalidOperationException("Нельзя получить файл вне хранилища");
             }
@@ -42,9 +42,9 @@ namespace MyCloud.BL
 
         public async Task SaveFileToAsync(Stream stream, string filePath, bool overwrite = false)
         {
-            var absoluteFilePath = GetAbsoluteFilePath(filePath);
+            var absoluteFilePath = GetAbsolutePath(filePath);
 
-            if (!IsValidAbsoluteFilePath(absoluteFilePath))
+            if (!IsValidAbsolutePath(absoluteFilePath))
             {
                 throw new InvalidOperationException("Нельзя положить файл вне хранилища");
             }
@@ -69,9 +69,9 @@ namespace MyCloud.BL
             {
                 throw new ArgumentNullException(nameof(filePath), "Путь к файлу некорректен");
             }
-            var absoluteFilePath = GetAbsoluteFilePath(filePath);
+            var absoluteFilePath = GetAbsolutePath(filePath);
 
-            if (!IsValidAbsoluteFilePath(absoluteFilePath))
+            if (!IsValidAbsolutePath(absoluteFilePath))
             {
                 throw new InvalidOperationException("Нельзя удалить файл вне хранилища");
             }
@@ -90,6 +90,30 @@ namespace MyCloud.BL
             }
         }
 
-        private string GetAbsoluteFilePath(string relativePath) => Path.GetFullPath(Path.Combine(_storageDirectory, relativePath));
+        private string GetAbsolutePath(string relativePath) => Path.GetFullPath(Path.Combine(_storageDirectory, relativePath));
+
+        public async Task CreateFolder(string path)
+        {
+            var absolutePath = GetAbsolutePath(path);
+
+            if (!IsValidAbsolutePath(absolutePath))
+            {
+                throw new InvalidOperationException("Нельзя создать папку вне хранилища");
+            }
+
+            Directory.CreateDirectory(absolutePath);
+        }
+
+        public async Task DeleteFolder(string path)
+        {
+            var absolutePath = GetAbsolutePath(path);
+
+            if (!IsValidAbsolutePath(absolutePath))
+            {
+                throw new InvalidOperationException("Нельзя удалить папку вне хранилища");
+            }
+
+            Directory.Delete(path, true);
+        }
     }
 }
